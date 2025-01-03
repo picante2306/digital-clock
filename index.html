@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Clock</title>
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: #fff;
+      overflow: hidden;
+    }
+
+    .clock {
+      text-align: center;
+      border: 4px solid rgba(255, 255, 255, 0.2);
+      border-radius: 15px;
+      padding: 20px 40px;
+      background: rgba(0, 0, 0, 0.3);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .time {
+      font-size: 4rem;
+      letter-spacing: 2px;
+      animation: glow 2s infinite alternate;
+    }
+
+    .date {
+      font-size: 1.2rem;
+      margin-top: 10px;
+      font-weight: 300;
+    }
+
+    .ampm {
+      font-size: 1rem;
+      margin-left: 5px;
+      vertical-align: super;
+    }
+
+    @keyframes glow {
+      0% {
+        text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #ffdd00, 0 0 30px #ffdd00;
+      }
+      100% {
+        text-shadow: 0 0 10px #fff, 0 0 20px #ff8800, 0 0 30px #ff5500, 0 0 40px #ff5500;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="clock">
+    <div class="time" id="time"></div>
+    <div class="date" id="date"></div>
+  </div>
+
+  <script>
+    function updateClock() {
+      const timeElement = document.getElementById('time');
+      const dateElement = document.getElementById('date');
+
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+      const seconds = now.getSeconds();
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+
+      const formattedHours = hours % 12 || 12;
+      const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+      const formattedSeconds = seconds < 10 ? '0' + seconds : seconds;
+
+      const timeString = `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+      timeElement.innerHTML = timeString + `<span class="ampm">${ampm}</span>`;
+
+      const dateString = now.toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+      dateElement.textContent = dateString;
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock();
+  </script>
+</body>
+</html>
